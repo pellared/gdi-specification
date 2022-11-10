@@ -70,11 +70,11 @@ chooses what to install limiting the configuration options.
 It MUST be possible to configure a Data Collector instance using the following
 environment variables:
 
-|   Name (default value)   |                    Description                     |
-|:------------------------:|:--------------------------------------------------:|
-| `SPLUNK_ACCESS_TOKEN` () |    Access token added to exported data. [1][2]     |
-|    `SPLUNK_CONFIG` ()    |           Configuration file to use. [1]           |
-|    `SPLUNK_REALM` ()     | Realm configured for the exporter endpoint. [1][2] |
+|   Name (default value)   |                     Description                     |
+|:------------------------:|:---------------------------------------------------:|
+| `SPLUNK_ACCESS_TOKEN` () |    Access token added to exported data. [1] [2]     |
+|    `SPLUNK_CONFIG` ()    |           Configuration file to use. [1]            |
+|    `SPLUNK_REALM` ()     | Realm configured for the exporter endpoint. [1] [2] |
 
 - [1]: Either `SPLUNK_ACCESS_TOKEN` and `SPLUNK_REALM` MUST be defined or
   `SPLUNK_CONFIG` MUST be defined. If `SPLUNK_ACCESS_TOKEN` and `SPLUNK_REALM`
@@ -206,11 +206,13 @@ are required.
     If the user fails to define a service name the distribution MUST log a
     warning. The warning message MUST clearly describe how to set the service
     name or link to relevant documentation. E.g.
-    ```
+
+    ```log
     service.name attribute is not set, your service is unnamed and will be difficult to identify.
     set your service name using the OTEL_SERVICE_NAME environment variable.
     E.g. `OTEL_SERVICE_NAME="<YOUR_SERVICE_NAME_HERE>"`
     ```
+
 - `OTEL_PROPAGATORS`
   - Distribution MUST default to `"tracecontext,baggage"`
   - Distribution MUST support and document how to switch to `b3multi`
@@ -226,7 +228,7 @@ are required.
     **NOTE: `jaeger-thrift-splunk` is deprecated.**
     If the user selects `jaeger-thrift-splunk`, distributions MUST log a deprecation warning and suggest an alternate method. For example:
 
-    ```
+    ```log
     jaeger-thrift-splunk trace exporter is deprecated and may be removed in a future major release. Use the default 
     OTLP exporter instead, or set the SPLUNK_REALM and SPLUNK_ACCESS_TOKEN environment variables to send 
     telemetry directly to Splunk Observability Cloud.
@@ -288,6 +290,7 @@ properties:
   `realm` will be ignored SHOULD be logged.
 
 Other requirements:
+
 - RUM library MUST use the Zipkin v2 JSON span exporter by default
 - RUM library MUST limit the number of sent spans to 100 in a 30 second window
   per `component` attribute value
@@ -298,9 +301,10 @@ Other requirements:
 
 By default, serverless instrumentation libraries MUST send data directly
 to Splunk Observability Cloud (direct ingest). Therefore, the following applies to exporter configuration:
+
 - `OTEL_TRACES_EXPORTER`
   - MUST default to `otlp` over HTTP, as currently supported by the ingest
-  - MAY offer `jaeger-thrift-splunk` 
+  - MAY offer `jaeger-thrift-splunk`
 
 Apart from standard set of configuration properties for instrumentation
 libraries based on OpenTelemetry, serverless MUST honour the following:
@@ -312,17 +316,18 @@ libraries based on OpenTelemetry, serverless MUST honour the following:
 - [1] Either `SPLUNK_REALM` or relevant traces exporter endpoint property and
   `SPLUNK_METRICS_ENDPOINT` MUST be set.
 
-    If `SPLUNK_REALM` is set, `SPLUNK_ACCESS_TOKEN` MUST be set as well.
+  If `SPLUNK_REALM` is set, `SPLUNK_ACCESS_TOKEN` MUST be set as well.
 
-    With `SPLUNK_REALM` set, both traces and metrics exporter endpoints will have following values:
-    - traces (in case of `otlp`): `https://ingest.${SPLUNK_REALM}.signalfx.com/v2/trace/otlp`
-    - traces (all other cases):`https://ingest.REALM.signalfx.com/v2/trace`
-    - metrics: `https://ingest.${SPLUNK_REALM}.signalfx.com`
+  With `SPLUNK_REALM` set, both traces and metrics exporter endpoints will have following values:
 
-    If relevant traces exporter endpoint property (eg
-    `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` for `otlp`) or
-    `SPLUNK_METRICS_ENDPOINT` is set, it takes precedence over the
-    `SPLUNK_REALM` setting.
+  - traces (in case of `otlp`): `https://ingest.${SPLUNK_REALM}.signalfx.com/v2/trace/otlp`
+  - traces (all other cases):`https://ingest.REALM.signalfx.com/v2/trace`
+  - metrics: `https://ingest.${SPLUNK_REALM}.signalfx.com`
+
+  If relevant traces exporter endpoint property (eg
+  `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` for `otlp`) or
+  `SPLUNK_METRICS_ENDPOINT` is set, it takes precedence over the
+  `SPLUNK_REALM` setting.
 
 As there is no deployment phase in case of Serverless functions, if a required
 configuration property is missing, the serverless instrumentation library MUST
