@@ -70,11 +70,11 @@ chooses what to install limiting the configuration options.
 It MUST be possible to configure a Data Collector instance using the following
 environment variables:
 
-| Name (default value)          | Description                                        |
-| :-------------------:         | :-----------------------------------:              |
-| `SPLUNK_ACCESS_TOKEN` ()      | Access token added to exported data. [1][2]        |
-| `SPLUNK_CONFIG` ()            | Configuration file to use. [1]                     |
-| `SPLUNK_REALM` ()             | Realm configured for the exporter endpoint. [1][2] |
+|   Name (default value)   |                    Description                     |
+|:------------------------:|:--------------------------------------------------:|
+| `SPLUNK_ACCESS_TOKEN` () |    Access token added to exported data. [1][2]     |
+|    `SPLUNK_CONFIG` ()    |           Configuration file to use. [1]           |
+|    `SPLUNK_REALM` ()     | Realm configured for the exporter endpoint. [1][2] |
 
 - [1]: Either `SPLUNK_ACCESS_TOKEN` and `SPLUNK_REALM` MUST be defined or
   `SPLUNK_CONFIG` MUST be defined. If `SPLUNK_ACCESS_TOKEN` and `SPLUNK_REALM`
@@ -158,15 +158,15 @@ For all use-cases that support environment variables (e.g. applications and
 serverless), it MUST be possible to configure an Instrumentation Library
 instance using the following environment variables:
 
-| Name                                   | Default | Description                                                                               |
-|----------------------------------------|---------|-------------------------------------------------------------------------------------------|
-| `SPLUNK_ACCESS_TOKEN`                  |         | Access token added to exported data. [1]                                                  |
-| `SPLUNK_PROFILER_CALL_STACK_INTERVAL`  | 10000   | Interval at which call stacks are sampled (in ms) [5]                                     |
-| `SPLUNK_PROFILER_ENABLED`              | false   | Whether CPU profiling is enabled. [2] [5]                                                 |
-| `SPLUNK_PROFILER_LOGS_ENDPOINT`        | *       | Where profiling data is sent. Defaults to the value in `OTLP_EXPORTER_OTLP_ENDPOINT` [5]  |
-| `SPLUNK_PROFILER_MEMORY_ENABLED`       | false   | Whether memory profiling is enabled. [2] [6]                                              |
-| `SPLUNK_REALM`                         | `none`  | Which realm to send exported data. [3]                                                    |
-| `SPLUNK_TRACE_RESPONSE_HEADER_ENABLED` |  true   | Whether `Server-Timing` header is added to HTTP responses. [4]                            |
+| Name                                   | Default | Description                                                                              |
+|----------------------------------------|---------|------------------------------------------------------------------------------------------|
+| `SPLUNK_ACCESS_TOKEN`                  |         | Access token added to exported data. [1]                                                 |
+| `SPLUNK_PROFILER_CALL_STACK_INTERVAL`  | 10000   | Interval at which call stacks are sampled (in ms) [5]                                    |
+| `SPLUNK_PROFILER_ENABLED`              | false   | Whether CPU profiling is enabled. [2] [5]                                                |
+| `SPLUNK_PROFILER_LOGS_ENDPOINT`        | *       | Where profiling data is sent. Defaults to the value in `OTLP_EXPORTER_OTLP_ENDPOINT` [5] |
+| `SPLUNK_PROFILER_MEMORY_ENABLED`       | false   | Enables exporting metrics.  memory profiling is enabled. [2] [6]                         |
+| `SPLUNK_REALM`                         | `none`  | Which realm to send exported data. [3]                                                   |
+| `SPLUNK_TRACE_RESPONSE_HEADER_ENABLED` | true    | Whether `Server-Timing` header is added to HTTP responses. [4]                           |
 
 - [1]: Not user required if another system performs the authentication. For
   example, instrumentation libraries SHOULD send data to a locally running
@@ -232,6 +232,17 @@ are required.
     telemetry directly to Splunk Observability Cloud.
     ```
 
+**Status**: [Experimental](../README.md#versioning-and-status-of-the-specification)
+
+The following following environment variables are NOT required
+(the instrumentation libraries MAY support them):
+
+| Name                             | Default | Description                             |
+|----------------------------------|---------|-----------------------------------------|
+| `SPLUNK_METRICS_ENABLED`         |         | Enables exporting metrics is enabled.   |
+| `SPLUNK_METRICS_ENDPOINT`        |         | Endpoint for metrics data ingest.       |
+| `SPLUNK_METRICS_EXPORT_INTERVAL` |         | The interval between exporting metrics. |
+| `SPLUNK_METRICS_IMPLEMENTATION`  |         | Specified the metrics implementation.   |
 
 In addition to environment variables, other ways of defining configuration also exist:
 
@@ -256,14 +267,14 @@ etc.).
 RUM instrumentation libraries MUST support the following configuration
 properties:
 
-| Property (default value)               | Description                                                                                                                                                                                                 |
-| -------------------------------------- | -----------                                                                                                                                                                                                 |
-| `realm` ()                             | Splunk realm, e.g. `us0`, `us1`. If set, value of `beaconEndpoint` will be automatically computed based on this. [1] [2] [3]                                                                                |
-| `beaconEndpoint` ()                    | RUM beacon URL, e.g. `https://rum-ingest.<realm>.signalfx.com/v1/rum`. If both `realm` and `beaconEndpoint` are set, `beaconEndpoint` takes precedence. [1] [2] [3]                                         |
-| `rumAccessToken` ()                    | RUM authentication token. [1]                                                                                                                                                                               |
-| `applicationName` ()                   | Instrumented application name. [1]                                                                                                                                                                          |
-| `globalAttributes` ()                  | OpenTelemetry [Attributes](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/common/README.md#attribute) that will be added to every span produced by the RUM library. |
-| `deploymentEnvironment` ()             | Sets the environment (`deployment.environment` span attribute) for all spans.                                                                                                                               |
+| Property (default value)   | Description                                                                                                                                                                                                |
+|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `realm` ()                 | Splunk realm, e.g. `us0`, `us1`. If set, value of `beaconEndpoint` will be automatically computed based on this. [1] [2] [3]                                                                               |
+| `beaconEndpoint` ()        | RUM beacon URL, e.g. `https://rum-ingest.<realm>.signalfx.com/v1/rum`. If both `realm` and `beaconEndpoint` are set, `beaconEndpoint` takes precedence. [1] [2] [3]                                        |
+| `rumAccessToken` ()        | RUM authentication token. [1]                                                                                                                                                                              |
+| `applicationName` ()       | Instrumented application name. [1]                                                                                                                                                                         |
+| `globalAttributes` ()      | OpenTelemetry [Attributes](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/common/README.md#attribute) that will be added to every span produced by the RUM library. |
+| `deploymentEnvironment` () | Sets the environment (`deployment.environment` span attribute) for all spans.                                                                                                                              |
 
 - [1] Application name, authentication token and either realm or the beacon URL
   MUST be provided by the user. If any of these is missing, the RUM
@@ -294,9 +305,9 @@ to Splunk Observability Cloud (direct ingest). Therefore, the following applies 
 Apart from standard set of configuration properties for instrumentation
 libraries based on OpenTelemetry, serverless MUST honour the following:
 
-| Name (default value)  | Description                                            |
-| --------------------- | ------------------------------------------------------ |
-| `SPLUNK_REALM` ()     | Splunk Observability Cloud realm [1]                   |
+| Name (default value) | Description                          |
+|----------------------|--------------------------------------|
+| `SPLUNK_REALM` ()    | Splunk Observability Cloud realm [1] |
 
 - [1] Either `SPLUNK_REALM` or relevant traces exporter endpoint property and
   `SPLUNK_METRICS_ENDPOINT` MUST be set.
