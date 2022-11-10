@@ -241,7 +241,7 @@ The following following environment variables are NOT required
 
 | Name                             | Default | Description                             |
 |----------------------------------|---------|-----------------------------------------|
-| `SPLUNK_METRICS_ENABLED`         |         | Enables exporting metrics is enabled.   |
+| `SPLUNK_METRICS_ENABLED`         |         | Whether exporting metrics is enabled.   |
 | `SPLUNK_METRICS_ENDPOINT`        |         | Endpoint for metrics data ingest.       |
 | `SPLUNK_METRICS_EXPORT_INTERVAL` |         | The interval between exporting metrics. |
 | `SPLUNK_METRICS_IMPLEMENTATION`  |         | Specified the metrics implementation.   |
