@@ -237,7 +237,7 @@ are required.
 **Status**: [Experimental](../README.md#versioning-and-status-of-the-specification)
 
 The following environment variables are NOT required
-(the instrumentation libraries MAY support them):
+(instrumentation libraries MAY support them):
 
 | Name                             | Default | Description                             |
 |----------------------------------|---------|-----------------------------------------|
