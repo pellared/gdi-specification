@@ -70,11 +70,11 @@ chooses what to install limiting the configuration options.
 It MUST be possible to configure a Data Collector instance using the following
 environment variables:
 
-|   Name (default value)   |                     Description                     |
-|:------------------------:|:---------------------------------------------------:|
-| `SPLUNK_ACCESS_TOKEN` () |    Access token added to exported data. [1] [2]     |
-|    `SPLUNK_CONFIG` ()    |           Configuration file to use. [1]            |
-|    `SPLUNK_REALM` ()     | Realm configured for the exporter endpoint. [1] [2] |
+| Name (default value)     | Description                                         |
+|--------------------------|-----------------------------------------------------|
+| `SPLUNK_ACCESS_TOKEN` () | Access token added to exported data. [1] [2]        |
+| `SPLUNK_CONFIG` ()       | Configuration file to use. [1]                      |
+| `SPLUNK_REALM` ()        | Realm configured for the exporter endpoint. [1] [2] |
 
 - [1]: Either `SPLUNK_ACCESS_TOKEN` and `SPLUNK_REALM` MUST be defined or
   `SPLUNK_CONFIG` MUST be defined. If `SPLUNK_ACCESS_TOKEN` and `SPLUNK_REALM`
